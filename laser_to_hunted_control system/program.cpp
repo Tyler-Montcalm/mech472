@@ -30,6 +30,7 @@ void equation_line_without_label(double x1, double x2, double y1, double y2, dou
 double angle_point_point(double x1, double x2, double y1, double y2);
 double carangle(int xfront, int yfront, int xback, int yback);
 void bestxy(double x_hunter, double x_obstacle, double y_hunter, double y_obstacle, double r_obstacle, double &x_best, double &y_best);
+
 int main()
 {
 	double x0, y0, theta0, max_speed, opponent_max_speed;
@@ -99,25 +100,6 @@ int main()
 	theta0 = 0;
 	set_robot_position(x0,y0,theta0);
 
-	pw_l = 1250; // pulse width for left wheel servo (us)
-	pw_r = 2000; // pulse width for right wheel servo (us)
-	pw_laser = 1500; // pulse width for laser servo (us)
-	laser = 0; // laser input (0 - off, 1 - fire)
-	
-	// paramaters
-	max_speed = 100; // max wheel speed of robot (pixels/s)
-	opponent_max_speed = 100; // max wheel speed of opponent (pixels/s)
-	
-	// lighting parameters (not currently implemented in the library)
-	light = 1.0;
-	light_gradient = 1.0;
-	light_dir = 1.0;
-	image_noise = 1.0;
-
-	// set initial inputs
-	set_inputs(pw_l,pw_r,pw_laser,laser,
-		light,light_gradient,light_dir,image_noise,
-		max_speed,opponent_max_speed);
 	
 	image rgb;
 	int height, width;
@@ -145,16 +127,14 @@ int main()
 		acquire_image_sim(rgb);
 
 		tc = high_resolution_time() - tc0;
-
-		set_inputs(1000,2000,pw_laser,laser,
-			light,light_gradient,light_dir,image_noise,
-			max_speed,opponent_max_speed);
-
+		
+		laser_to_hunted(0, 0, 30, 30, 0); // this function takes the x,y coord of you and your opponent and aims laser to him if possible else closest
+		
 		
 		view_rgb_image(rgb);
 
 		
-		Sleep(10); // 100 fps max
+		Sleep(1000); // 100 fps max
 	}
 
 	// free the image memory before the program completes
@@ -226,29 +206,34 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 	double opponent_max_speed = 100; // max wheel speed of opponent (pixels/s)
 
 	angle_left = angle_hunter - 90;
+	//cout << "Angle left = " << angle_left;
 	if (angle_left < 0)
 	{
-		angle_left += 360;
+		//angle_left += 360;
 	}
 	angle_right = angle_hunter + 90;
 	if (angle_right < 0)
 	{
 		angle_right += 360;
 	}
-	angle_hunted = carangle(x_laser, y_laser, x_hunted,y_hunted);
-
+	angle_hunted = carangle(x_laser, y_laser, x_hunted,y_hunted)-180;
+	//cout << "\n" << "Angle hunted = " << angle_hunted;
+	bool obstacle;
+	obstacle = false;
 	if ((angle_hunted >= angle_left) && (angle_hunted <= angle_right))
 	{
-		int pw_laser = (angle_hunted)*(degree_per_pulse_width);
+		int pw_laser = ((angle_hunted)*(degree_per_pulse_width))+1500;
 		if (obstacle == false) // change this to a function call for ryans function
 		{ //turn to angle and fire
-			set_inputs(1500, 1500, pw_laser, 0, 
+			//cout << "\n Turning laser to 45 degrees left";
+			set_inputs(1500, 1500, pw_laser, 1, 
 				light, light_gradient, light_dir, image_noise,
 				max_speed, opponent_max_speed);
+		
 		}
 		else
 		{ //turn to angle dont fire
-			set_inputs(1500, 1500, pw_laser, 1,
+			set_inputs(1500, 1500, pw_laser, 0,
 				light, light_gradient, light_dir, image_noise,
 				max_speed, opponent_max_speed);
 		}
