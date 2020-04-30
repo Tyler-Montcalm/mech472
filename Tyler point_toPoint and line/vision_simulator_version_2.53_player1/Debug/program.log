@@ -1,0 +1,18 @@
+﻿Build started 4/30/2020 10:54:07 AM.
+     1>Project "D:\school\472 lectures\simulator\vision_simulator_version_2.53_player1\program.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\MicrosoftVisualStudio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\program.exe" /INCREMENTAL /NOLOGO mfplat.lib mf.lib mfreadwrite.lib mfuuid.lib shlwapi.lib propsys.lib strmbasd.lib odbc32.lib odbccp32.lib msvcrtd.lib winmm.lib wsock32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libcmtd /NODEFAULTLIB:libcd /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\program.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\program.lib" /MACHINE:X86 /SAFESEH .\Debug\program.obj
+         .\Debug\robot.obj
+         .\Debug\shared_memory.obj
+         .\Debug\timer.obj
+         .\Debug\vision.obj
+         .\Debug\vision_simulation.obj
+         atlsnd.lib
+         image_transfer5.lib
+         strmbasd.lib
+         program.vcxproj -> D:\school\472 lectures\simulator\vision_simulator_version_2.53_player1\.\Debug\program.exe
+     1>Done Building Project "D:\school\472 lectures\simulator\vision_simulator_version_2.53_player1\program.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.54
