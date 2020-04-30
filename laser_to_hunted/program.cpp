@@ -195,6 +195,12 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 {
 	double angle_right, angle_left,angle_hunted; // these are the max limits the laser can shoot
 	double degree_per_pulse_width = 500 / 90;
+	double light = 1.0;
+	double light_gradient = 1.0;
+	double light_dir = 1.0;
+	double image_noise = 1.0;
+	double max_speed = 100; // max wheel speed of robot (pixels/s)
+	double opponent_max_speed = 100; // max wheel speed of opponent (pixels/s)
 
 	angle_left = angle_hunter - 90;
 	if (angle_left < 0)
@@ -208,9 +214,9 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 	}
 	angle_hunted = carangle(x_laser, y_laser, x_hunted,y_hunted);
 
-	if ((angle_hunted >= angle_left) && (angle_hunted <= angle_right)
+	if ((angle_hunted >= angle_left) && (angle_hunted <= angle_right))
 	{
-		pw_laser = (angle_hunted)*(degree_per_pulse_width);
+		int pw_laser = (angle_hunted)*(degree_per_pulse_width);
 		if (obstacle == false) // change this to a function call for ryans function
 		{ //turn to angle and fire
 			set_inputs(1500, 1500, pw_laser, 0, 
@@ -237,7 +243,9 @@ void equation_line_without_label(double x1, double x2,double y1,double y2, doubl
 }
 
 double carangle(int xfront, int yfront, int xback, int yback) {
+	double PI = 3.14159;
 	double temp = atan2(yfront - yback, xfront - xback) * 180 / PI;
 	if (temp < 0) temp += 360;
 	return temp;
 }
+
