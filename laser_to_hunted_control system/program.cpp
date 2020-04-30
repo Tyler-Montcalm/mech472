@@ -29,7 +29,7 @@ void laser_to_hunted(double x_laser, double y_laser, double x_hunted, double y_h
 void equation_line_without_label(double x1, double x2, double y1, double y2, double &slope_return, double &b_return);
 double angle_point_point(double x1, double x2, double y1, double y2);
 double carangle(int xfront, int yfront, int xback, int yback);
-
+void bestxy(double x_hunter, double x_obstacle, double y_hunter, double y_obstacle, double r_obstacle, double &x_best, double &y_best);
 int main()
 {
 	double x0, y0, theta0, max_speed, opponent_max_speed;
@@ -182,7 +182,30 @@ int main()
 
 }
 */
-
+void bestxy(double x_hunter, double x_obstacle, double y_hunter, double y_obstacle,double r_obstacle,double &x_best,double &y_best)
+{
+	double angle_between_hunter_obstacle; 
+	double x_to_move, y_to_move;
+	angle_between_hunter_obstacle = carangle(x_hunter, y_hunter, x_obstacle, y_obstacle);
+	x_to_move = (sin(angle_between_hunter_obstacle))*r_obstacle;
+	if (x_hunter >= x_obstacle) // if hunter is more right you want to be more left of obstacle
+	{
+		x_best = x_obstacle - x_to_move;
+	}
+	else // if hunter is more left you want to be more right of obstacle
+	{
+		x_best = x_obstacle + x_to_move;
+	}
+	y_to_move = (cos(angle_between_hunter_obstacle))*r_obstacle;
+	if (y_hunter >= y_obstacle) // if hunter is more north you want to be more south of obstacle
+	{
+		y_best = y_obstacle - y_to_move;
+	}
+	else // if hunter is more south you want to be more north of obstacle
+	{
+		y_best = y_obstacle + y_to_move;
+	}
+}
 
 
 double angle_point_point(double x1, double x2, double y1, double y2)
