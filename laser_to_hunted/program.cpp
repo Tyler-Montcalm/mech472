@@ -197,21 +197,29 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 	double degree_per_pulse_width = 500 / 90;
 
 	angle_left = angle_hunter - 90;
+	if (angle_left < 0)
+	{
+		angle_left += 360;
+	}
 	angle_right = angle_hunter + 90;
-	angle_hunted=angle_point_point(double x_hunter, double x_hunted, double y_hunter, double y_hunted);
+	if (angle_right < 0)
+	{
+		angle_right += 360;
+	}
+	angle_hunted = carangle(x_laser, y_laser, x_hunted,y_hunted);
 
 	if ((angle_hunted >= angle_left) && (angle_hunted <= angle_right)
 	{
 		pw_laser = (angle_hunted)*(degree_per_pulse_width);
 		if (obstacle == false) // change this to a function call for ryans function
 		{ //turn to angle and fire
-			set_inputs(1500, 1500, pw_laser, 1, 
+			set_inputs(1500, 1500, pw_laser, 0, 
 				light, light_gradient, light_dir, image_noise,
 				max_speed, opponent_max_speed);
 		}
 		else
 		{ //turn to angle dont fire
-			set_inputs(1500, 1500, pw_laser, 0,
+			set_inputs(1500, 1500, pw_laser, 1,
 				light, light_gradient, light_dir, image_noise,
 				max_speed, opponent_max_speed);
 		}
