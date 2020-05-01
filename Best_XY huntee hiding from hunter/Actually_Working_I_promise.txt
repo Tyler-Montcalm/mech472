@@ -1,0 +1,47 @@
+void laser_to_hunted(double x_laser, double y_laser, double x_hunted, double y_hunted, double angle_hunter) // this function takes the x,y coord of you and your opponent and aims laser to him if possible else closest
+{
+	double angle_right, angle_left, angle_hunted; // these are the max limits the laser can shoot
+	double degree_per_pulse_width = 500 / 90;
+	double light = 1.0;
+	double light_gradient = 1.0;
+	double light_dir = 1.0;
+	double image_noise = 1.0;
+	double max_speed = 100; // max wheel speed of robot (pixels/s)
+	double opponent_max_speed = 100; // max wheel speed of opponent (pixels/s)
+
+	angle_left = angle_hunter + 90;
+	//cout << "Angle left = " << angle_left;
+	if (angle_left > 360)
+	{
+		angle_left += 360;
+	}
+	angle_right = angle_hunter - 90;
+	if (angle_right < 0)
+	{
+		angle_right += 360;
+	}
+	angle_hunted = carangle(x_hunted, y_hunted, x_laser, y_laser);
+	cout << "\n" << "Angle hunted = " << angle_hunted;
+	cout << "\n" << "Angle hunter = " << angle_hunter;
+	bool obstacle; 
+	obstacle = false;
+	if (abs(angle_hunter - angle_hunted) <= 90)
+	{
+		int pw_laser =((angle_hunted-angle_hunter)*(degree_per_pulse_width))+1500;
+		if (obstacle == false) // change this to a function call for ryans function
+		{ //turn to angle and fire
+			//cout << "\n Turning laser to 45 degrees left";
+			set_inputs(1500, 1500, pw_laser, 1,
+				light, light_gradient, light_dir, image_noise,
+				max_speed, opponent_max_speed);
+
+		}
+		else
+		{ //turn to angle dont fire
+			set_inputs(1500, 1500, pw_laser, 0,
+				light, light_gradient, light_dir, image_noise,
+				max_speed, opponent_max_speed);
+			cout << "not firing laser";
+		}
+	}
+}
