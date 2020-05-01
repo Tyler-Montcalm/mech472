@@ -76,7 +76,7 @@ int main()
 	alpha_max = 3.14159/2; // max range of laser / gripper (rad)
 	
 	// number of robot (1 - no opponent, 2 - with opponent, 3 - not implemented yet)
-	n_robot = 2;
+	n_robot = 1;
 	
 	cout << "\npress space key to begin program.";
 	pause();
@@ -127,8 +127,8 @@ int main()
 		acquire_image_sim(rgb);
 
 		tc = high_resolution_time() - tc0;
-		bestxy(25.0, 150.0, 25.0, 150.0, 20.0, x_best, y_best);
-		laser_to_hunted(30, 30, 0, 0, 0); // this function takes the x,y coord of you and your opponent and aims laser to him if possible else closest
+		//bestxy(25.0, 150.0, 25.0, 150.0, 20.0, x_best, y_best);
+		//laser_to_hunted(30, 30, 0, 0, 0); // this function takes the x,y coord of you and your opponent and aims laser to him if possible else closest
 		
 		
 		view_rgb_image(rgb);
@@ -215,7 +215,7 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 	double opponent_max_speed = 100; // max wheel speed of opponent (pixels/s)
 
 	angle_left = angle_hunter - 90;
-	//cout << "Angle left = " << angle_left;
+	cout << "Angle left = " << angle_left;
 	if (angle_left < 0)
 	{
 		//angle_left += 360;
@@ -223,13 +223,13 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 	angle_right = angle_hunter + 90;
 	if (angle_right < 0)
 	{
-		angle_right += 360;
+		//angle_right += 360;
 	}
 	angle_hunted = carangle(x_laser, y_laser, x_hunted,y_hunted)-180;
 	
 	bool obstacle;
 	obstacle = false;
-	//cout << "at angle: " << angle_hunted;
+	cout << "at angle: " << angle_hunted;
 	if ((angle_hunted >= angle_left) && (angle_hunted <= angle_right))
 	{
 		int pw_laser = ((angle_hunted)*(degree_per_pulse_width))+1500;
@@ -251,10 +251,7 @@ void laser_to_hunted(double x_laser,double y_laser,double x_hunted,double y_hunt
 	}
 	else
 	{
-		set_inputs(1750, 1750, 0, 0,
-			1, 1, 1, 1,
-			100, 100);
-		// its behind you so you cant get there anyway
+		
 	}
 }
 void equation_line_without_label(double x1, double x2,double y1,double y2, double &slope_return, double &b_return)

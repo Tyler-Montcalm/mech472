@@ -1,34 +1,33 @@
-void bestxy(double x_hunter, double x_obstacle, double y_hunter, double y_obstacle,double r_obstacle,double &x_best,double &y_best);
-double carangle(int xfront, int yfront, int xback, int yback); // car angle should already be defined
-
 void bestxy(double x_hunter, double x_obstacle, double y_hunter, double y_obstacle,double r_obstacle,double &x_best,double &y_best)
 {
 	double angle_between_hunter_obstacle; 
 	double x_to_move, y_to_move;
 	angle_between_hunter_obstacle = carangle(x_hunter, y_hunter, x_obstacle, y_obstacle);
-	x_to_move = (sin(angle_between_hunter_obstacle))*r_obstacle;
+	//cout << "\n" << "angle between hunter obstacle: " << angle_between_hunter_obstacle;
+	x_to_move = (sin(angle_between_hunter_obstacle*.01745))*r_obstacle;
+	//cout << "\n" << "x to move: " << x_to_move;
 	if (x_hunter >= x_obstacle) // if hunter is more right you want to be more left of obstacle
 	{
+		//cout << "hunter>xobst";
 		x_best = x_obstacle - x_to_move;
 	}
 	else // if hunter is more left you want to be more right of obstacle
 	{
 		x_best = x_obstacle + x_to_move;
+		//cout << "hunter<xobst";
 	}
-	y_to_move = (cos(angle_between_hunter_obstacle))*r_obstacle;
+	y_to_move = (cos(angle_between_hunter_obstacle*.01745))*r_obstacle;
+	//cout << "\n" << "y to move: " << y_to_move;
 	if (y_hunter >= y_obstacle) // if hunter is more north you want to be more south of obstacle
 	{
 		y_best = y_obstacle - y_to_move;
+		//cout << "hunter>yobst";
 	}
 	else // if hunter is more south you want to be more north of obstacle
 	{
 		y_best = y_obstacle + y_to_move;
+		//cout << "hunter<yobst";
 	}
-}
-
-double carangle(int xfront, int yfront, int xback, int yback) {
-	double PI = 3.14159;
-	double temp = atan2(yfront - yback, xfront - xback) * 180 / PI;
-	if (temp < 0) temp += 360;
-	return temp;
+	cout << "\n" << "x: " << x_best << "y: " << y_best;
+	
 }
